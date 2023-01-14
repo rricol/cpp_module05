@@ -6,7 +6,7 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:01:05 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/14 14:49:34 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/14 14:53:56 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <iostream>
 #include <stdexcept>
+#include "Form.hpp"
+
+class Form;
 
 class Bureaucrat
 {
@@ -36,6 +39,7 @@ class Bureaucrat
 		int getGrade( void ) const;
 		void upGrade( int amount );
 		void downGrade( int amount );
+		void signForm( Form &inst );
 
 		class GradeTooHighException : public std::exception
 		{
@@ -53,7 +57,6 @@ class Bureaucrat
 					return ("[exception] Upgrade impossible: Grade is too low.");
 				}
 		};
-	
 };
 
 std::ostream &operator<<( std::ostream &o, Bureaucrat const &inst);

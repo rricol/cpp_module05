@@ -3,7 +3,8 @@ FLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS_DIR = ./
 SRCS =	main.cpp \
-		Bureaucrat.cpp
+		Bureaucrat.cpp \
+		Form.cpp
 
 OBJS_DIR = objects/
 OBJ = $(SRCS:.cpp=.o)

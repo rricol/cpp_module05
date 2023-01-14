@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Bureaucrat.cpp                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/14 14:35:45 by rricol            #+#    #+#             */
+/*   Updated: 2023/01/14 16:51:25 by rricol           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Bureaucrat.hpp"
 
 Bureaucrat::Bureaucrat(): _name("Bureaucrat Lambda"), _grade(150)
@@ -18,11 +30,9 @@ Bureaucrat::Bureaucrat( Bureaucrat const &rhs ): _name(rhs.getName())
 
 Bureaucrat &Bureaucrat::operator=( Bureaucrat const &rhs )
 {
-	std::cout << "Bureaucrat copy assignment operator called" << std::endl;
+	std::cout << "Bureaucrat assignment operator called" << std::endl;
 	if (this != &rhs)
-	{
 		this->_grade = rhs.getGrade();
-	}
 	return *this;
 }
 
@@ -55,6 +65,13 @@ void Bureaucrat::downGrade( int amount )
 		throw Bureaucrat::GradeTooLowException();
 	else
 		this->_grade += amount;
+}
+
+void Bureaucrat::signForm( Form &inst )
+{
+	if (this->getGrade() > inst.getSignGrade() || inst.getStatus() == true)
+		std::cout << this->getName() << " n'a pas pu signé car :" << std::endl;
+	inst.beSigned( *this );
 }
 
 std::ostream &operator<<( std::ostream &o, Bureaucrat const &rhs )
