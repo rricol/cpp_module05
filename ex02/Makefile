@@ -1,17 +1,17 @@
-NAME = office
-FLAGS = -Wall -Wextra -Werror -std=c++98
+NAME 		= executable
+FLAGS 		= -Wall -Wextra -Werror -std=c++98
 
-SRCS_DIR = ./
-SRCS =	main.cpp \
-		Bureaucrat.cpp \
-		A_Form.cpp \
-		PresidentialPardonForm.cpp \
-		RobotomyRequestForm.cpp \
-		ShrubberyCreationForm.cpp
+SRCS_DIR 	= ./
+SRCS 		=	main.cpp \
+				Bureaucrat.cpp \
+				AForm.cpp \
+				PresidentialPardonForm.cpp \
+				RobotomyRequestForm.cpp \
+				ShrubberyCreationForm.cpp
 
-OBJS_DIR = objects/
-OBJ = $(SRCS:.cpp=.o)
-OBJS = $(addprefix $(OBJS_DIR), $(OBJ))
+OBJS_DIR 	= objects/
+OBJ 		= $(SRCS:.cpp=.o)
+OBJS 		= $(addprefix $(OBJS_DIR), $(OBJ))
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.cpp
 	@mkdir -p $(OBJS_DIR)
@@ -32,3 +32,5 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: re clean fclean

@@ -10,36 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ShrubberyCreationForm.hpp"
+#include "_settings.h"
 
 ShrubberyCreationForm::ShrubberyCreationForm(): 
-A_Form::A_Form("Shrubbery Creation Form", 25, 5), _target("Default target")
+AForm::AForm("Shrubbery Creation Form", 25, 5), _target("DefaultTarget")
 {
-	std::cout << "Shrubbery Creation Form default constructor called" << std::endl;
+	std::cout << LOG << "Shrubbery Creation Form default constructor called" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(std::string target): 
-A_Form::A_Form("Shrubbery Creation Form", 25, 5), _target(target)
+AForm::AForm("Shrubbery Creation Form", 25, 5), _target(target)
 {
-	std::cout << "Shrubbery Creation Form overload constructor called" << std::endl;
+	std::cout << LOG << "Shrubbery Creation Form initialiser constructor called" << std::endl;
 }
 
-ShrubberyCreationForm::ShrubberyCreationForm( ShrubberyCreationForm const &rhs ): A_Form::A_Form( rhs ), _target(rhs._target)
+ShrubberyCreationForm::ShrubberyCreationForm( ShrubberyCreationForm const &rhs ): AForm::AForm( rhs ), _target(rhs._target)
 {
-	std::cout << "ShrubberyCreationForm copy constructor called" << std::endl;
+	std::cout << LOG << "ShrubberyCreationForm copy constructor called" << std::endl;
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
-	std::cout << "ShrubberyCreationForm destructor called" << std::endl;
+	std::cout << LOG << "ShrubberyCreationForm destructor called" << std::endl;
 }
 
 ShrubberyCreationForm &ShrubberyCreationForm::operator=( ShrubberyCreationForm const &rhs )
 {
-	std::cout << "ShrubberyCreationForm assignment operator called" << std::endl;
+	std::cout << LOG << "ShrubberyCreationForm assignment operator called" << std::endl;
 	if (this != &rhs)
-		this->_isSigned = rhs.getStatus();
+		this->_target = rhs._target;
 	return *this;
+}
+
+std::string		ShrubberyCreationForm::getTarget( void ) const
+{
+	return this->_target;
 }
 
 void ShrubberyCreationForm::executeAction( void ) const
@@ -47,7 +52,7 @@ void ShrubberyCreationForm::executeAction( void ) const
 	std::string filename = this->_target + "_shrubbery";
 	std::ofstream outfile (filename);
 	outfile <<"\
-					.o00o \n\
+					      .o00o \n\
                    o000000oo \n\
                   00000000000o \n\
                  00000000000000 \n\
@@ -67,12 +72,17 @@ void ShrubberyCreationForm::executeAction( void ) const
            _       /\\. \\_/ /\\ \n\
             `---__/|_\\   //|  __ \n\
                   `-'  `-'`-'-'";
-	std::cout << std::endl;
 	outfile.close();
+   std::cout << INFO << "Fichier " << filename << " a été créé" << std::endl;
 }
 
-std::ostream &operator<<( std::ostream &o, ShrubberyCreationForm const &rhs )
+std::ostream &operator<<( std::ostream &os, ShrubberyCreationForm const &rhs )
 {
-	o << rhs.getName() << " -> status : " << rhs.getStatus() << " | " << "Grade requis : Sign[" << rhs.getSignGrade() << "] - Exec[" << rhs.getExecGrade() << "]" << std::endl;
-	return o;
+	os << BOLD_P << "[ Formulaire ]" << RESET << std::endl;
+	os << "‣ Name:\t\t" << rhs.getName() << std::endl;
+	os << "‣ Status:\t" << rhs.getStatus() << std::endl;
+	os << "‣ Target:\t" << rhs.getTarget() << std::endl;
+	os << "‣ Grade sign:\t" << rhs.getSignGrade() << std::endl;
+	os << "‣ Grade exec:\t" << rhs.getExecGrade() << "\n\n";
+	return os;
 }

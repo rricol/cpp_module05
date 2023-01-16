@@ -6,21 +6,21 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:28:02 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 17:15:54 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 14:54:48 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PRESIDENTIALPARDONFORM_HPP
 #define PRESIDENTIALPARDONFORM_HPP
 
-#include "A_Form.hpp"
+#include "_settings.h"
 
 class Bureaucrat;
 class ShrubberyCreationForm;
 class RobotomyRequestForm;
-class A_Form;
+class AForm;
 
-class PresidentialPardonForm : public A_Form
+class PresidentialPardonForm : public AForm
 {
 	private:
 		std::string _target;
@@ -32,7 +32,10 @@ class PresidentialPardonForm : public A_Form
 
 		PresidentialPardonForm &operator=( PresidentialPardonForm const &rhs );
 		
+		std::string		getTarget( void ) const;
 		virtual void	executeAction( void ) const;
 };
+
+std::ostream &operator<<( std::ostream &os, PresidentialPardonForm const &rhs );
 
 #endif // PRESIDENTIALPARDONFORM_HPP

@@ -6,21 +6,21 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:28:02 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 17:16:11 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 15:21:56 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHRUBBERYCREATIONFORM_HPP
 #define SHRUBBERYCREATIONFORM_HPP
 
-#include "A_Form.hpp"
+#include "_settings.h"
 
 class Bureaucrat;
-class A_Form;
+class AForm;
 class RobotomyRequestForm;
 class PresidentialPardonForm;
 
-class ShrubberyCreationForm : public A_Form
+class ShrubberyCreationForm : public AForm
 {
 	private:
 		std::string _target;
@@ -32,7 +32,10 @@ class ShrubberyCreationForm : public A_Form
 
 		ShrubberyCreationForm &operator=( ShrubberyCreationForm const &rhs );
 
+		std::string		getTarget( void ) const;
 		virtual void	executeAction( void ) const;
 };
+
+std::ostream &operator<<( std::ostream &os, ShrubberyCreationForm const &rhs );
 
 #endif // SHRUBBERYCREATIONFORM_HPP

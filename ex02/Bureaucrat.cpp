@@ -6,40 +6,43 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 14:35:45 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 17:03:19 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 15:40:07 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include "_settings.h"
 
-Bureaucrat::Bureaucrat(): _name("Bureaucrat Lambda"), _grade(150)
+// Construcors & Destructors
+
+Bureaucrat::Bureaucrat( void ):
+_name("Bureaucrat Lambda"), _grade(150)
 {
-   std::cout << "Bureaucrat default constructor called" << std::endl;
+	std::cout << LOG << "Bureaucrat default constructor called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat( std::string name, int grade ): _name(name), _grade(grade)
+Bureaucrat::Bureaucrat( std::string const name, int const grade ):
+_name(name), _grade(grade)
 {
-	std::cout << "Bureaucrat overload constructor called" << std::endl;
+	if (_grade > minGrade)
+		throw GradeTooLowException();
+	if (_grade < maxGrade)
+		throw GradeTooHighException();
+	std::cout << LOG << "Bureaucrat overload constructor called" << std::endl;
 }
 
-Bureaucrat::Bureaucrat( Bureaucrat const &rhs ): _name(rhs.getName())
+Bureaucrat::Bureaucrat( Bureaucrat const &rhs ):
+_name(rhs.getName())
 {
-	std::cout << "Bureaucrat copy constructor called" << std::endl;
+	std::cout << LOG << "Bureaucrat copy constructor called" << std::endl;
 	*this = rhs;
 }
 
-Bureaucrat &Bureaucrat::operator=( Bureaucrat const &rhs )
+Bureaucrat::~Bureaucrat( void )
 {
-	std::cout << "Bureaucrat assignment operator called" << std::endl;
-	if (this != &rhs)
-		this->_grade = rhs.getGrade();
-	return *this;
+	std::cout << LOG << "Bureaucrat destructor called" << std::endl;
 }
 
-Bureaucrat::~Bureaucrat()
-{
-	std::cout << "Bureaucrat destructor called" << std::endl;
-}
+// Methods
 
 std::string Bureaucrat::getName( void ) const
 {
@@ -67,28 +70,45 @@ void Bureaucrat::downGrade( int amount )
 		this->_grade += amount;
 }
 
-void Bureaucrat::signForm( A_Form &inst )
+void Bureaucrat::signForm( AForm &inst )
 {
 	if (this->getGrade() > inst.getSignGrade() || inst.getStatus() == true)
-		std::cout << this->getName() << " n'a pas pu signé car :" << std::endl;
+		std::cout << ERROR << this->getName() << " n'a pas pu signé " << inst.getName() << std::endl;
 	inst.beSigned( *this );
 }
 
-void Bureaucrat::signForm( PresidentialPardonForm &inst )
+void Bureaucrat::executeForm( AForm const & form ) const
 {
-	if (this->getGrade() > inst.getSignGrade() || inst.getStatus() == true)
-		std::cout << this->getName() << " n'a pas pu signé car :" << std::endl;
-	inst.beSigned( *this );
-}
-
-void Bureaucrat::executeForm( A_Form const & form )
-{
+	std::cout << SUCCESS << this->getName() << " a executé " << form.getName() << std::endl;
 	form.execute(*this);
-	std::cout << this->getName() << " a executé " << form.getName() << std::endl;
 }
 
-std::ostream &operator<<( std::ostream &o, Bureaucrat const &rhs )
+// Operator overloads
+
+Bureaucrat &Bureaucrat::operator=( Bureaucrat const &rhs )
 {
-	o << rhs.getName() << ", son grade est " << rhs.getGrade() << "." << std::endl;
-	return o;
+	std::cout << LOG << "Bureaucrat assignment operator called" << std::endl;
+	if (this != &rhs)
+		this->_grade = rhs.getGrade();
+	return *this;
+}
+
+std::ostream &operator<<( std::ostream &os, Bureaucrat const &rhs )
+{
+	os << BOLD_P << "[ Bureaucrat ]" << RESET << std::endl;
+	os << "‣ Name:\t\t" << rhs.getName() << std::endl;
+	os << "‣ Grade:\t" << rhs.getGrade() << "\n\n";
+	return os;
+}
+
+// Exceptions
+
+const char *Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return (BOLD_RED "\n⊘ Error: Grade is too low\n" RESET);
+}
+
+const char *Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return (BOLD_RED "\n⊘ Error: Grade is too high\n" RESET);
 }

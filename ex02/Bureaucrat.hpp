@@ -6,64 +6,55 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:01:05 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 17:15:20 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 14:36:02 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 #define BUREAUCRAT_HPP
 
-#include <iostream>
-#include <stdexcept>
-#include "A_Form.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "ShrubberyCreationForm.hpp"
+#include "_settings.h"
 
-class A_Form;
+class AForm;
+class ShrubberyCreationForm;
+class RobotomyRequestForm;
+class PresidentialPardonForm;
 
 class Bureaucrat
 {
 	private:
-		std::string const _name;
-		int _grade;
-		static int const maxGrade = 1;
-		static int const minGrade = 150;
+		std::string const	_name;
+		int 				_grade;
+		static int const 	maxGrade = 1;
+		static int const 	minGrade = 150;
 
 	public:
-		Bureaucrat();
-		Bureaucrat( std::string name, int grade );
+		Bureaucrat( void );
+		Bureaucrat( std::string const name, int const grade );
 		Bureaucrat( Bureaucrat const &rhs );
-		~Bureaucrat();
+		~Bureaucrat( void );
 
-		Bureaucrat &operator=( Bureaucrat const &rhs );
+		Bureaucrat	&operator=( Bureaucrat const &rhs );
 
 		std::string	getName( void ) const;
 		int			getGrade( void ) const;
 		void		upGrade( int amount );
 		void		downGrade( int amount );
-		void		signForm( A_Form &inst );
-		void		signForm( PresidentialPardonForm &inst );
-		void		executeForm( A_Form const & form );
+		void		signForm( AForm &inst );
+		void		executeForm( AForm const & form ) const;
 
 		class GradeTooHighException : public std::exception
 		{
 			public:
-				virtual const char* what() const throw()
-				{
-					return ("[exception] Upgrade impossible: Grade is too high.");
-				}
+				virtual const char* what() const throw();
 		};
 		class GradeTooLowException : public std::exception
 		{
 			public:
-				virtual const char* what() const throw()
-				{
-					return ("[exception] Upgrade impossible: Grade is too low.");
-				}
+				virtual const char* what() const throw();
 		};
 };
 
-std::ostream &operator<<( std::ostream &o, Bureaucrat const &inst);
+std::ostream &operator<<( std::ostream &os, Bureaucrat const &inst);
 
 #endif // BUREAUCRAT_HPP

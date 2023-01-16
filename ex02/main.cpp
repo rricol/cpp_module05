@@ -6,57 +6,52 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 11:25:03 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 16:59:10 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 15:49:42 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
-#include "ShrubberyCreationForm.hpp"
+#include "_settings.h"
 
 int main ( void )
 {
-	Bureaucrat a("Raph", 1);
-	Bureaucrat b("Laurent", 15);
-	Bureaucrat c("Lucas", 15);
-	Bureaucrat d("Tito", 15);
-	PresidentialPardonForm f1;
-	RobotomyRequestForm f2;
-	ShrubberyCreationForm f3;
-
-	std::cout << std::endl << "Bienvenue à The Office!" << std::endl;
-	std::cout << std::endl;
-	std::cout << "Nous avons acutellement 3 employés :" << std::endl;
-	std::cout << "> " << a;
-	std::cout << "> " << b;
-	std::cout << std::endl;
-	std::cout << "Nous avons 3 Formulaires à disposition :" << std::endl;
-	std::cout << "> " << f1;
-	std::cout << "> " << f2;
-	std::cout << "> " << f3;
 	try
 	{
-		a.signForm(f1);
-		std::cout << "> " << f1;
-		f1.execute(a);
-		// Bureaucrat tmp(b);
-		// std::cout << std::endl;
-		
-		// std::cout << tmp.getName() << " tente de signer " << f1.getName() << " :" << std::endl;
-		// tmp.signForm(f1);
-		// std::cout << "> " << f1;
-		
-		// std::cout << std::endl;
+		// AForm x(); // pour tester que la classe AForm soit bien abstraite
+		Bureaucrat a("Raphaël", 1);
+		Bureaucrat b("Laurent", 60);
+		Bureaucrat c("Tito", 15);
+		// Bureaucrat d("Lucas", 160); // erreur initialisation grade
+		PresidentialPardonForm f1("Dark Vador");
+		RobotomyRequestForm f2("Votre belle-mère");
+		ShrubberyCreationForm f3("Seulout");
+		std::cout << std::endl;
+		std::cout << a;
+		std::cout << b;
+		std::cout << c;
+		std::cout << f1;
+		std::cout << f2;
+		std::cout << f3;
 
-		// std::cout << tmp.getName() << " tente à nouveau de signer " << f1.getName() << " :" << std::endl;
-		// tmp.signForm(f1);
-		// std::cout << "> " << f1;
+		// b.signForm(f3); // erreur signature grade too high
+		a.signForm(f1);
+		b.signForm(f2); // commenter pour obtenir erreur execution formulaire non signé
+		c.signForm(f3);
+		std::cout << std::endl;
+		std::cout << f1;
+		std::cout << f2;
+		std::cout << f3;
+		// a.signForm(f2); // erreur Formulaire déjà signé
+		std::cout << std::endl;
+		// b.executeForm(f3); // erreur execution grade too low
+		a.executeForm(f3);
+		b.executeForm(f1);
+		c.executeForm(f2);
+		std::cout << std::endl;
+
 	}
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 	}
-	std::cout << std::endl;
 	return 0;
 }

@@ -6,50 +6,60 @@
 /*   By: rricol <rricol@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:38:27 by rricol            #+#    #+#             */
-/*   Updated: 2023/01/15 16:01:46 by rricol           ###   ########.fr       */
+/*   Updated: 2023/01/16 15:48:20 by rricol           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RobotomyRequestForm.hpp"
+#include "_settings.h"
 
 RobotomyRequestForm::RobotomyRequestForm(): 
-A_Form::A_Form("Robotomy Request Form", 72, 45), _target("Default target")
+AForm::AForm("Robotomy Request Form", 72, 45), _target("Default target")
 {
-	std::cout << "Robotomy Request Form default constructor called" << std::endl;
+	std::cout << LOG << "Robotomy Request Form default constructor called" << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(std::string target): 
-A_Form::A_Form("Robotomy Request Form", 72, 45), _target(target)
+AForm::AForm("Robotomy Request Form", 72, 45), _target(target)
 {
-	std::cout << "Robotomy Request Form overload constructor called" << std::endl;
+	std::cout << LOG << "Robotomy Request Form initialiser constructor called" << std::endl;
 }
 
-RobotomyRequestForm::RobotomyRequestForm( RobotomyRequestForm const &rhs ): A_Form::A_Form( rhs ), _target(rhs._target)
+RobotomyRequestForm::RobotomyRequestForm( RobotomyRequestForm const &rhs ): AForm::AForm( rhs ), _target(rhs._target)
 {
-	std::cout << "RobotomyRequestForm copy constructor called" << std::endl;
+	std::cout << LOG << "RobotomyRequestForm copy constructor called" << std::endl;
 }
 
 RobotomyRequestForm::~RobotomyRequestForm()
 {
-	std::cout << "RobotomyRequestForm destructor called" << std::endl;
+	std::cout << LOG << "RobotomyRequestForm destructor called" << std::endl;
 }
 
 RobotomyRequestForm &RobotomyRequestForm::operator=( RobotomyRequestForm const &rhs )
 {
-	std::cout << "RobotomyRequestForm assignment operator called" << std::endl;
+	std::cout << LOG << "RobotomyRequestForm assignment operator called" << std::endl;
 	if (this != &rhs)
-		this->_isSigned = rhs.getStatus();
+		this->_target = rhs._target;
 	return *this;
+}
+
+std::string		RobotomyRequestForm::getTarget( void ) const
+{
+	return this->_target;
 }
 
 void RobotomyRequestForm::executeAction( void ) const
 {
-	std::cout << "Brrzzzzzzzzz bip bip" << std::endl;
-	std::cout << this->getName() << " a été robotomisé." << std::endl;
+	std::cout << INFO << "Brrzzzzzzzzz bip bip ... ";
+	std::cout << this->getTarget() << " a été robotomisé." << std::endl;
 }
 
-std::ostream &operator<<( std::ostream &o, RobotomyRequestForm const &rhs )
+std::ostream &operator<<( std::ostream &os, RobotomyRequestForm const &rhs )
 {
-	o << rhs.getName() << " -> status : " << rhs.getStatus() << " | " << "Grade requis : Sign[" << rhs.getSignGrade() << "] - Exec[" << rhs.getExecGrade() << "]" << std::endl;
-	return o;
+	os << BOLD_P << "[ Formulaire ]" << RESET << std::endl;
+	os << "‣ Name:\t\t" << rhs.getName() << std::endl;
+	os << "‣ Status:\t" << rhs.getStatus() << std::endl;
+	os << "‣ Target:\t" << rhs.getTarget() << std::endl;
+	os << "‣ Grade sign:\t" << rhs.getSignGrade() << std::endl;
+	os << "‣ Grade exec:\t" << rhs.getExecGrade() << "\n\n";
+	return os;
 }
