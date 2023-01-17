@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AForm_HPP
-#define AForm_HPP
+#pragma once
 
 #include "_settings.h"
 
@@ -65,5 +64,3 @@ class AForm
 };
 
 std::ostream &operator<<( std::ostream &os, AForm const &inst);
-
-#endif // AForm_HPP
